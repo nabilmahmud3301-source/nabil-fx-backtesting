@@ -1235,6 +1235,48 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 
 
+
+<style id="nfx-pure-black-market-panels">
+/* Requested finish: pure black surfaces for Order Book and both heatmap workspaces. */
+#nfxLiqDashboard .nfx-liq-workspace-card,
+#nfxLiqDashboard .nfx-liq-workspace-card:fullscreen,
+#nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-ob-premium-rebuild,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-header,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-marketline,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-controls,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-book-wrap,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-side,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-sidehead,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-levels,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-center,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-spread-pill,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-flow,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-sidefoot,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-pob-footer,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-price-focus,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-liq-book.nfx-ob-ladder,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-side,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-side .nfx-liq-book-title,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-side .nfx-liq-levels,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-center-rail,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-ob-footer,
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-wrap,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap .nfx-liq-timeline-wrap {
+  background:#000000!important;
+  background-image:none!important;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap,
+#nfxLiqDashboard #nfxLiqLiquidationHeatmap,
+#nfxLiqDashboard #nfxLiqLivePanel {
+  background:#000000!important;
+}
+#nfxLiqDashboard #nfxLiqTimelineCanvas,
+#nfxLiqDashboard #nfxLiqLiquidationCanvas {
+  background:#000000!important;
+}
+</style>
+
 </head>
 <body>
 <header class="site-header">
@@ -4040,7 +4082,7 @@ document.addEventListener('click', function(event) {
     var ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);
     var W=rect.width,H=rect.height,left=14,right=78,top=34,bottom=28,pw=W-left-right,ph=H-top-bottom;
     ctx.clearRect(0,0,W,H);
-    var bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#101827');bg.addColorStop(.55,'#0d1522');bg.addColorStop(1,'#0a111c');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#000000';ctx.fillRect(0,0,W,H);
     var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
     var candleSymbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(activeMarket==='crypto')nfxBookCandleLoad(false);
@@ -4152,7 +4194,7 @@ var nfxEstLiqCandles=[];
     if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
     var ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);
     var W=rect.width,H=rect.height,left=14,right=82,top=30,bottom=34,pw=W-left-right,ph=H-top-bottom;
-    ctx.clearRect(0,0,W,H);var chartBg=ctx.createLinearGradient(0,0,0,H);chartBg.addColorStop(0,'#172438');chartBg.addColorStop(.55,'#111d2d');chartBg.addColorStop(1,'#0d1725');ctx.fillStyle=chartBg;ctx.fillRect(0,0,W,H);
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#000000';ctx.fillRect(0,0,W,H);
     var symbol=String(currentSymbol||'BTCUSDT').toLowerCase();
     if(nfxEstLiqSymbol!==symbol.toUpperCase()||!nfxEstLiqCandles.length)nfxEstLiqLoad(false);
     var rangeMap={'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000};
