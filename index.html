@@ -1305,6 +1305,42 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 </style>
 
 <style id="nfx-book-liq-timeframe-style">.nfx-book-liq-ranges{display:flex;align-items:center;gap:3px;flex-wrap:nowrap}.nfx-book-liq-ranges button{min-width:31px}.nfx-liq-timeline-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}@media(max-width:760px){.nfx-book-liq-ranges{gap:1px}.nfx-book-liq-ranges button{min-width:27px;padding-left:6px!important;padding-right:6px!important}}</style>
+<style id="nfx-liquidity-controls-match-liquidation">
+/* Liquidity Heatmap controls intentionally mirror Liquidation Heatmap markup and layout.
+   Only the Liquidity Heatmap is targeted; its own range/zoom/reset handlers remain intact. */
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{
+  display:flex!important;align-items:center!important;justify-content:flex-end!important;
+  gap:7px!important;flex-wrap:wrap!important;width:auto!important;min-width:0;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges{
+  display:flex!important;align-items:center!important;justify-content:flex-start!important;
+  gap:4px!important;flex-wrap:wrap!important;min-width:0;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button{
+  flex:0 0 auto!important;min-width:0!important;height:auto!important;min-height:0!important;
+  padding:6px 8px!important;border:1px solid #27344a!important;border-radius:5px!important;
+  background:#0b1220!important;color:#9eacc2!important;
+  font:700 10px system-ui!important;line-height:1.2!important;white-space:nowrap!important;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button.active,
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button:hover{
+  color:#f7d56b!important;border-color:#b99a37!important;background:#24200f!important;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn{
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  gap:5px!important;min-height:31px!important;height:31px!important;padding:0 9px!important;
+  border:1px solid #354354!important;border-radius:7px!important;background:#141c27!important;
+  color:#cbd5e4!important;font-size:10px!important;font-weight:800!important;white-space:nowrap!important;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn:hover{
+  border-color:#4fd8ad!important;color:#75ebc2!important;background:#13251f!important;
+}
+@media(max-width:760px){
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head{align-items:flex-start!important;flex-direction:column!important;gap:10px!important}
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{justify-content:flex-start!important;width:100%!important}
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges{gap:4px!important}
+}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -1456,7 +1492,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><div class="nfx-est-liq-ranges nfx-book-liq-ranges" role="group" aria-label="Liquidity heatmap timeframe"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button type="button" data-book-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-book-liq-zoom="in" aria-label="Zoom in">+</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-est-liq-ranges" role="group" aria-label="Liquidity heatmap time range"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button type="button" data-book-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-book-liq-zoom="in" aria-label="Zoom in">+</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
