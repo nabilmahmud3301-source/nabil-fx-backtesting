@@ -4087,7 +4087,7 @@ var nfxEstLiqCandles=[];
   var nfxEstLiqZoom=1;
   var nfxEstLiqPointer=null;
   function nfxEstLiqConfig(){
-    var map={'1h':{interval:'1m',limit:61},'2h':{interval:'1m',limit:121},'4h':{interval:'1m',limit:241},'12h':{interval:'5m',limit:145},'1d':{interval:'15m',limit:97},'2d':{interval:'15m',limit:193},'3d':{interval:'15m',limit:289},'7d':{interval:'15m',limit:673}};
+    var map={'1h':{interval:'1m',limit:65},'2h':{interval:'1m',limit:125},'4h':{interval:'1m',limit:245},'12h':{interval:'5m',limit:149},'1d':{interval:'15m',limit:101},'2d':{interval:'15m',limit:197},'3d':{interval:'30m',limit:149},'7d':{interval:'1h',limit:173}};
     return map[nfxEstLiqRange]||map['1h'];
   }
   function nfxEstLiqLoad(force){
@@ -4173,9 +4173,13 @@ var nfxEstLiqCandles=[];
       ctx.fillText(dt.toLocaleDateString([],{month:'short',day:'2-digit'})+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),gx,H-15);
     }
     // Overlay actual Binance Futures candles; no synthetic liquidation levels are generated.
-    var step=pw/candles.length,cw=Math.max(1,Math.min(6,step*.62));
-    candles.forEach(function(c,i){
-      var x=left+(i+.5)*step,yO=top+(maxP-c.o)/(maxP-minP)*ph,yC=top+(maxP-c.c)/(maxP-minP)*ph,yH=top+(maxP-c.h)/(maxP-minP)*ph,yL=top+(maxP-c.l)/(maxP-minP)*ph;
+    // Place each candle by its actual timestamp across the entire selected window. Candle body width follows the selected candle interval so long ranges remain readable.
+    var intervalMs=({ '1h':60000,'2h':60000,'4h':60000,'12h':300000,'1d':900000,'2d':900000,'3d':1800000,'7d':3600000 })[nfxEstLiqRange]||60000;
+    var step=pw*intervalMs/span,cw=Math.max(1,Math.min(9,step*.72));
+    candles.forEach(function(c){
+      var x=left+((c.t+intervalMs/2-cutoff)/span)*pw;
+      if(x<left-cw||x>left+pw+cw)return;
+      var yO=top+(maxP-c.o)/(maxP-minP)*ph,yC=top+(maxP-c.c)/(maxP-minP)*ph,yH=top+(maxP-c.h)/(maxP-minP)*ph,yL=top+(maxP-c.l)/(maxP-minP)*ph;
       var col=c.c>=c.o?'#21d6a0':'#f04469';ctx.strokeStyle=col;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();ctx.fillStyle=col;ctx.fillRect(x-cw/2,Math.min(yO,yC),cw,Math.max(1,Math.abs(yC-yO)));
     });
     // Plot each verified liquidation at its reported price/time and extend a level guide to the right.
