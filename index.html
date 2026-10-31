@@ -1234,6 +1234,37 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 
 
 
+<style id="nfx-orderbook-compact-live-market-price">
+/* Compact summary cards plus a dedicated live price card for the selected contract. */
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  gap:6px!important;padding:8px 12px 10px!important;margin:0!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{
+  min-height:62px!important;padding:7px 9px!important;border:1px solid #233246!important;
+  border-radius:8px!important;background:linear-gradient(145deg,#111c2a,#0c141f)!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-caption,
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>span{
+  margin-bottom:4px!important;font-size:7px!important;letter-spacing:.075em!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contractline strong{font-size:12px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract small{margin-top:4px!important;font-size:6px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>strong{font-size:13px!important;letter-spacing:-.025em!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric>small{margin-top:3px!important;font-size:7px!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-live-price{border-color:#2c594e!important;background:linear-gradient(145deg,#102820,#0c1718)!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-live-price>span{color:#79cdb0!important}
+#nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-live-price>strong{color:#57e0b2!important;font-size:15px!important}
+@media(max-width:1100px){
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@media(max-width:700px){
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-summary{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important;padding:7px!important}
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-contract,
+ #nfxLiqDashboard #nfxLiqLivePanel.nfx-orderbook-next .nfx-obx-metric{min-height:58px!important;padding:6px 7px!important}
+}
+</style>
 </head>
 <body>
 <header class="site-header">
@@ -1344,6 +1375,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       </header>
       <div class="nfx-obx-summary">
         <div class="nfx-obx-contract"><span class="nfx-obx-caption">ACTIVE CONTRACT</span><div class="nfx-obx-contractline"><strong id="nfxLiqSelectedMarket">BTC / USDT</strong><span class="nfx-obx-perp">PERP</span></div><small><i></i> BINANCE USDⓈ-M FUTURES</small></div>
+        <div class="nfx-obx-metric nfx-obx-live-price"><span id="nfxObxSelectedPriceLabel">BTC / USDT</span><strong id="nfxObxSelectedPrice">—</strong><small>LIVE MARKET PRICE</small></div>
         <div class="nfx-obx-metric"><span>BEST BID</span><strong id="nfxLiqBestBid" class="bid-text">—</strong><small>Highest buy order</small></div>
         <div class="nfx-obx-metric"><span>BEST ASK</span><strong id="nfxLiqBestAsk" class="ask-text">—</strong><small>Lowest sell order</small></div>
         <div class="nfx-obx-metric"><span>SPREAD</span><strong id="nfxLiqSpread">—</strong><small>Ask − bid</small></div>
@@ -3715,7 +3747,7 @@ document.addEventListener('click', function(event) {
   var symbols={btcusdt:'BTC/USDT',ethusdt:'ETH/USDT',bnbusdt:'BNB/USDT',solusdt:'SOL/USDT',xrpusdt:'XRP/USDT',dogeusdt:'DOGE/USDT',adausdt:'ADA/USDT',linkusdt:'LINK/USDT'},marketSymbolsLoaded=false;
   function normalizeSymbol(value){return String(value||'').toUpperCase().replace(/[^A-Z0-9]/g,'').replace(/USDT$/,'')+'USDT';}
   function marketLabel(symbol){symbol=String(symbol||'').toUpperCase();return symbol.slice(0,-4)+'/USDT';}
-  function updateMarketSearchUI(){var list=$('nfxMarketSuggestions'),count=$('nfxMarketCount');if(list){list.replaceChildren();Object.keys(symbols).sort().forEach(function(key){var opt=document.createElement('option');opt.value=symbols[key];list.appendChild(opt);});}if(count)count.textContent=Object.keys(symbols).length.toLocaleString()+' USDT perpetual markets available · Binance Futures';var label=symbols[currentSymbol]||marketLabel(currentSymbol);['nfxMarketCurrent','nfxLiqSelectedMarket','nfxLiqTimelineSymbol','nfxLiqLiquidationSymbol'].forEach(function(id){var el=$(id);if(el)el.textContent=label.replace('/',' / ');});}
+  function updateMarketSearchUI(){var list=$('nfxMarketSuggestions'),count=$('nfxMarketCount');if(list){list.replaceChildren();Object.keys(symbols).sort().forEach(function(key){var opt=document.createElement('option');opt.value=symbols[key];list.appendChild(opt);});}if(count)count.textContent=Object.keys(symbols).length.toLocaleString()+' USDT perpetual markets available · Binance Futures';var label=(symbols[currentSymbol]||marketLabel(currentSymbol)).replace('/',' / ');['nfxMarketCurrent','nfxLiqSelectedMarket','nfxLiqTimelineSymbol','nfxLiqLiquidationSymbol','nfxObxSelectedPriceLabel'].forEach(function(id){var el=$(id);if(el)el.textContent=label;});}
   function loadCryptoMarkets(){var cacheKey='nfxBinanceUsdtPerpetualMarketsV1',cached=null;try{cached=JSON.parse(sessionStorage.getItem(cacheKey)||'null');}catch(e){}if(cached&&cached.savedAt&&Date.now()-cached.savedAt<21600000&&Array.isArray(cached.markets)){cached.markets.forEach(function(item){if(item&&item.symbol&&item.label)symbols[item.symbol]=item.label;});marketSymbolsLoaded=true;updateMarketSearchUI();return;}fetch('https://fapi.binance.com/fapi/v1/exchangeInfo').then(function(r){if(!r.ok)throw new Error('Market list unavailable');return r.json();}).then(function(data){var markets=[];(data.symbols||[]).forEach(function(item){if(item.status==='TRADING'&&item.contractType==='PERPETUAL'&&item.quoteAsset==='USDT'&&item.symbol){var key=item.symbol.toLowerCase(),label=item.baseAsset+'/USDT';symbols[key]=label;markets.push({symbol:key,label:label});}});marketSymbolsLoaded=true;try{sessionStorage.setItem(cacheKey,JSON.stringify({savedAt:Date.now(),markets:markets}));}catch(e){}updateMarketSearchUI();}).catch(function(){var count=$('nfxMarketCount');if(count)count.textContent=Object.keys(symbols).length+' popular markets loaded · full list temporarily unavailable';});}
   function historyCacheKey(symbol){return 'nfxLiqHistoryV2:'+symbol;}
   function saveHistoryCache(){
@@ -3740,7 +3772,7 @@ document.addEventListener('click', function(event) {
   }
   function clearSelectedMarketViews(){
     lastPayload=null;restoreHistoryCache(currentSymbol);
-    var ids=['nfxLiqBestBid','nfxLiqBestAsk','nfxLiqSpread','nfxLiqMid','nfxLiqUpdated'];
+    var ids=['nfxLiqBestBid','nfxLiqBestAsk','nfxLiqSpread','nfxLiqMid','nfxLiqUpdated','nfxObxSelectedPrice'];
     ids.forEach(function(id){var el=$(id);if(el)el.textContent='—';});
     ['nfxLiqBids','nfxLiqAsks'].forEach(function(id){var el=$(id);if(el)el.innerHTML='<div class="nfx-liq-empty">Connecting to '+marketLabel(currentSymbol)+'…</div>';});
     var saved=liqHistory.length?liqHistory[liqHistory.length-1]:null;
@@ -3841,7 +3873,7 @@ document.addEventListener('click', function(event) {
     var bidSizeEl=$('nfxObxBidSize'),askSizeEl=$('nfxObxAskSize');
     if(bidSizeEl)bidSizeEl.textContent=bidQty.toLocaleString('en-US',{maximumFractionDigits:4});
     if(askSizeEl)askSizeEl.textContent=askQty.toLocaleString('en-US',{maximumFractionDigits:4});
-    var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxPobBidMirror':fmt(bestBid[0]),'nfxPobAskMirror':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxProSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
+    var vals={'nfxLiqBestBid':fmt(bestBid[0]),'nfxLiqBestAsk':fmt(bestAsk[0]),'nfxPobBidMirror':fmt(bestBid[0]),'nfxPobAskMirror':fmt(bestAsk[0]),'nfxLiqSpread':fmt(spread),'nfxProSpread':fmt(spread),'nfxLiqMid':fmt(mid),'nfxObxSelectedPrice':fmt(mid),'nfxLiqUpdated':new Date().toLocaleTimeString()};
     Object.keys(vals).forEach(function(id){var el=$(id);if(el)el.textContent=vals[id];});
     if(!fromHistory)captureHistory({bids:bids,asks:asks},mid);
     renderTimeline();
