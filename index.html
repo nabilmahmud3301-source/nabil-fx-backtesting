@@ -4104,7 +4104,7 @@ var nfxEstLiqCandles=[];
         if(!Array.isArray(rows))throw new Error('Invalid candle data');
         nfxEstLiqCandles=rows.map(function(k){return {t:+k[0],o:+k[1],h:+k[2],l:+k[3],c:+k[4],v:+k[5]};}).filter(function(k){return k.t>0&&k.o>0&&k.h>0&&k.l>0&&k.c>0;});
         nfxEstLiqSymbol=symbol;nfxEstLiqLoadedRange=requestedRange;nfxEstLiqFetchedAt=Date.now();
-        renderLiquidationHeatmap();
+        renderLiquidationHeatmap();renderTimeline();
       }).catch(function(err){
         var status=$('nfxLiqEstStatus');if(status)status.textContent='Candle feed unavailable';
         console.warn('Nabil FX estimated liquidation heatmap:',err);
@@ -4319,7 +4319,7 @@ function bindHeatmapInspector(canvasId,kind){
       var next=btn.getAttribute('data-est-liq-range');if(!next||next===nfxEstLiqRange)return;
       nfxEstLiqRange=next;nfxEstLiqZoom=1;
       document.querySelectorAll('[data-est-liq-range]').forEach(function(x){var active=x===btn;x.classList.toggle('active',active);x.setAttribute('aria-pressed',active?'true':'false');});
-      nfxEstLiqLoad(true);renderLiquidationHeatmap();
+      nfxEstLiqLoad(true);renderLiquidationHeatmap();renderTimeline();
     });
     btn.setAttribute('aria-pressed',btn.classList.contains('active')?'true':'false');
   });
@@ -4327,7 +4327,7 @@ function bindHeatmapInspector(canvasId,kind){
     btn.addEventListener('click',function(){
       var action=btn.getAttribute('data-est-liq-zoom');
       nfxEstLiqZoom=action==='reset'?1:action==='in'?Math.min(8,nfxEstLiqZoom*1.5):Math.max(1,nfxEstLiqZoom/1.5);
-      renderLiquidationHeatmap();
+      renderLiquidationHeatmap();renderTimeline();
     });
   });
   var resetBtn=$('nfxLiqResetHistory');if(resetBtn)resetBtn.addEventListener('click',function(){liqHistory=[];lastHistoryAt=0;try{localStorage.removeItem(historyCacheKey(currentSymbol));}catch(e){}renderTimeline();});
