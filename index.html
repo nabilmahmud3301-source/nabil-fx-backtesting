@@ -4040,7 +4040,6 @@ document.addEventListener('click', function(event) {
     ctx.clearRect(0,0,W,H);
     var bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#101827');bg.addColorStop(.55,'#0d1522');bg.addColorStop(1,'#0a111c');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
     var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
-    if(activeMarket==='crypto'&&typeof nfxEstLiqLoad==='function')nfxEstLiqLoad(false);
     var candleSymbol=String(currentSymbol||'BTCUSDT').toUpperCase();
     if(activeMarket==='crypto')nfxBookCandleLoad(false);
     var chartCandles=activeMarket==='crypto'&&nfxBookCandleSymbol===candleSymbol&&nfxBookCandleRange===historyLimit()?nfxBookCandles.filter(function(c){return c.t>=cutoff&&c.t<=now;}):[];
