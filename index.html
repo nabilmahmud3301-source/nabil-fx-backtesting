@@ -1304,7 +1304,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 </style>
 
-</head>
+<style id="nfx-book-liq-timeframe-style">.nfx-book-liq-ranges{display:flex;align-items:center;gap:3px;flex-wrap:nowrap}.nfx-book-liq-ranges button{min-width:31px}.nfx-liq-timeline-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}@media(max-width:760px){.nfx-book-liq-ranges{gap:1px}.nfx-book-liq-ranges button{min-width:27px;padding-left:6px!important;padding-right:6px!important}}</style>\n</head>
 <body>
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil FX — Go to Home">
@@ -1455,7 +1455,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><label>WINDOW <select id="nfxLiqWindow"><option value="60">1 MIN</option><option value="300">5 MIN</option><option value="900">15 MIN</option><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select></label><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-liq-timeline-actions"><div class="nfx-est-liq-ranges nfx-book-liq-ranges" role="group" aria-label="Liquidity heatmap timeframe"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button type="button" data-book-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-book-liq-zoom="in" aria-label="Zoom in">+</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button id="nfxLiqResetHistory" type="button">Reset</button></div><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
@@ -4404,6 +4404,27 @@ function bindHeatmapInspector(canvasId,kind){
   if(searchForm)searchForm.addEventListener('submit',function(event){event.preventDefault();chooseMarket(searchInput?searchInput.value:'');});
   if(searchInput)searchInput.addEventListener('change',function(){var raw=searchInput.value;if(raw&&symbols[normalizeSymbol(raw).toLowerCase()])chooseMarket(raw);});
   restoreHistoryCache(currentSymbol);updateMarketSearchUI();loadCryptoMarkets();
+  var bookLiqRanges=[3600,7200,14400,43200,86400,172800,259200,604800];
+  function setBookLiqRange(value){
+    var win=$('nfxLiqWindow');if(!win)return;
+    win.value=String(value);
+    document.querySelectorAll('[data-book-liq-range]').forEach(function(btn){
+      var active=Number(btn.getAttribute('data-book-liq-range'))===Number(value);
+      btn.classList.toggle('active',active);btn.setAttribute('aria-pressed',active?'true':'false');
+    });
+    win.dispatchEvent(new Event('change',{bubbles:true}));
+  }
+  document.querySelectorAll('[data-book-liq-range]').forEach(function(btn){
+    btn.addEventListener('click',function(){setBookLiqRange(Number(btn.getAttribute('data-book-liq-range')));});
+  });
+  document.querySelectorAll('[data-book-liq-zoom]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var current=Number(($('nfxLiqWindow')||{}).value)||3600,index=bookLiqRanges.indexOf(current);
+      if(index<0)index=0;
+      index=btn.getAttribute('data-book-liq-zoom')==='in'?Math.max(0,index-1):Math.min(bookLiqRanges.length-1,index+1);
+      setBookLiqRange(bookLiqRanges[index]);
+    });
+  });
   var winSel=$('nfxLiqWindow');if(winSel)winSel.addEventListener('change',function(){
     // The selector changes the visible time window only; preserve the full
     // rolling capture buffer so a wider window can show earlier snapshots.
