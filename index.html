@@ -287,6 +287,33 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 .nfx-est-liq-ranges button.active,.nfx-est-liq-ranges button:hover{color:#f7d56b;border-color:#b99a37;background:#24200f}
 @media(max-width:760px){#nfxLiqLiquidationHeatmap .nfx-liq-timeline-head{align-items:flex-start;flex-direction:column;gap:10px}#nfxLiqLiquidationHeatmap .nfx-liq-card-actions{flex-wrap:wrap}}
 
+
+/* Precise Order Book surfaces requested: all visible summary, sides and mid-price blocks. */
+#nfxLiqDashboard #nfxLiqLivePanel,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-top,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-contract,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-metric,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-toolbar,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-side,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-colheads,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-ladder,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-mid,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-spread,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-bestrow,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-depthsplit,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidefoot,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer {
+  background:#000000!important;
+  background-image:none!important;
+}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-book{border-color:#202833!important}
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-summary,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-sidehead,
+#nfxLiqDashboard #nfxLiqLivePanel .nfx-obx-footer{border-color:#202833!important}
+
 </style>
 <style>
 /* Final Home-only refinement: compact founder card above a premium red/white title */
@@ -4134,6 +4161,16 @@ document.addEventListener('click', function(event) {
     ctx.strokeStyle='rgba(144,164,194,.15)';ctx.lineWidth=1;
     for(var k=0;k<=6;k++){var yy=top+ph*k/6;ctx.beginPath();ctx.moveTo(left,yy);ctx.lineTo(W-right,yy);ctx.stroke();var price=hi-(hi-lo)*k/6;ctx.fillStyle='#c3cede';ctx.textAlign='left';ctx.font='10px ui-monospace,SFMono-Regular,Menlo,monospace';ctx.fillText(fmt(price),W-right+8,yy);}
     for(var q=0;q<=6;q++){var xx=left+pw*q/6;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();var t=new Date(cutoff+windowMs*q/6);ctx.fillStyle='#75849a';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,SFMono-Regular,Menlo,monospace';ctx.fillText(t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),xx,H-13);}
+     // Compact timestamp pills along the top edge, matching the Liquidation Heatmap timeline labels.
+     for(var tq=0;tq<=6;tq++){
+       var tx=left+pw*tq/6,stamp=new Date(cutoff+windowMs*tq/6).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+       ctx.font='700 8px ui-monospace,SFMono-Regular,Menlo,monospace';
+       var pillW=ctx.measureText(stamp).width+12,pillH=16,pillX=Math.max(left,Math.min(W-right-pillW,tx-pillW/2)),pillY=top-24;
+       ctx.fillStyle='#101722';ctx.strokeStyle='#303b4b';ctx.lineWidth=1;
+       ctx.beginPath();ctx.roundRect(pillX,pillY,pillW,pillH,3);ctx.fill();ctx.stroke();
+       ctx.fillStyle='#aebbd0';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(stamp,pillX+pillW/2,pillY+pillH/2);
+     }
+     ctx.textBaseline='middle';
     // Overlay verified Binance Futures OHLC candles on the same price/time scale.
     if(chartCandles.length){
       var intervalMs=nfxBookCandleInterval,candleStep=pw*intervalMs/windowMs,bodyW=Math.max(1,Math.min(7,candleStep*.72));
