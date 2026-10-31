@@ -1304,7 +1304,8 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 }
 </style>
 
-<style id="nfx-book-liq-timeframe-style">.nfx-book-liq-ranges{display:flex;align-items:center;gap:3px;flex-wrap:nowrap}.nfx-book-liq-ranges button{min-width:31px}.nfx-liq-timeline-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}@media(max-width:760px){.nfx-book-liq-ranges{gap:1px}.nfx-book-liq-ranges button{min-width:27px;padding-left:6px!important;padding-right:6px!important}}</style>\n</head>
+<style id="nfx-book-liq-timeframe-style">.nfx-book-liq-ranges{display:flex;align-items:center;gap:3px;flex-wrap:nowrap}.nfx-book-liq-ranges button{min-width:31px}.nfx-liq-timeline-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}@media(max-width:760px){.nfx-book-liq-ranges{gap:1px}.nfx-book-liq-ranges button{min-width:27px;padding-left:6px!important;padding-right:6px!important}}</style>
+</head>
 <body>
 <header class="site-header">
   <a class="site-brand site-brand-home" href="#home" data-page="home" aria-label="Nabil FX — Go to Home">
@@ -4537,6 +4538,59 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 @media(max-width:1050px){
  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{width:100%;justify-content:flex-start}
  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions{justify-content:flex-start}
+}
+/* Refined Liquidity Heatmap header controls: timeframe on its own row, actions aligned below. */
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto;
+  grid-template-rows:auto auto;
+  align-items:center!important;
+  justify-content:stretch!important;
+  justify-items:stretch;
+  gap:8px 10px!important;
+  width:100%;
+  min-width:0;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions{display:contents!important}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges{
+  grid-column:1/-1;
+  grid-row:1;
+  display:flex!important;
+  justify-content:flex-start!important;
+  align-items:center!important;
+  flex-wrap:nowrap!important;
+  gap:4px!important;
+  min-width:0;
+  width:100%;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges button{
+  flex:0 1 34px;
+  min-width:0!important;
+  height:30px!important;
+  min-height:30px!important;
+  padding:0 6px!important;
+  white-space:nowrap;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap #nfxLiqResetHistory{
+  grid-column:1;
+  grid-row:2;
+  justify-self:start;
+  height:30px!important;
+  min-height:30px!important;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn{
+  grid-column:2;
+  grid-row:2;
+  justify-self:end;
+  height:30px!important;
+  min-height:30px!important;
+}
+@media(max-width:1050px){
+  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{width:100%!important}
+}
+@media(max-width:760px){
+  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges{gap:3px!important}
+  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges button{flex:1 1 0;min-width:0!important;padding:0 4px!important;font-size:9px!important}
 }
 </style>
 
