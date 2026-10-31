@@ -4011,15 +4011,15 @@ document.addEventListener('click', function(event) {
     var ctx=canvas.getContext('2d');if(!ctx)return;ctx.setTransform(dpr,0,0,dpr,0,0);
     var W=rect.width,H=rect.height,left=14,right=78,top=34,bottom=28,pw=W-left-right,ph=H-top-bottom;
     ctx.clearRect(0,0,W,H);
-    var bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#070b13');bg.addColorStop(.55,'#080c14');bg.addColorStop(1,'#05080e');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-    var now=Date.now(),windowMs=historyLimit()*1000,cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
+    var bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#101827');bg.addColorStop(.55,'#0d1522');bg.addColorStop(1,'#0a111c');ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+    var now=Date.now(),rangeSpans={'1h':3600000,'2h':7200000,'4h':14400000,'12h':43200000,'1d':86400000,'2d':172800000,'3d':259200000,'7d':604800000},windowMs=(rangeSpans[nfxEstLiqRange]||3600000)/Math.max(.25,nfxEstLiqZoom||1),cutoff=now-windowMs,history=liqHistory.filter(function(x){return x.t>=cutoff;});
     if(activeMarket==='crypto'&&typeof nfxEstLiqLoad==='function')nfxEstLiqLoad(false);
     var candleSymbol=String(currentSymbol||'BTCUSDT').toUpperCase();
-    var chartCandles=activeMarket==='crypto'&&nfxEstLiqSymbol===candleSymbol?nfxEstLiqCandles.filter(function(c){return c.t>=cutoff-windowMs*.08&&c.t<=now;}):[];
+    var chartCandles=activeMarket==='crypto'&&nfxEstLiqSymbol===candleSymbol?nfxEstLiqCandles.filter(function(c){return c.t>=cutoff&&c.t<=now;}):[];
     var empty=$('nfxLiqTimelineEmpty');if(empty)empty.hidden=history.length>0;
     ctx.font='700 9px system-ui,sans-serif';ctx.textBaseline='middle';ctx.textAlign='left';ctx.fillStyle='#a6b2c5';ctx.fillText('ASK',left,15);
     ctx.fillStyle='#8b5cf6';ctx.fillRect(left+27,11,8,8);ctx.fillStyle='#a6b2c5';ctx.fillText('BID',left+43,15);ctx.fillStyle='#27c7b8';ctx.fillRect(left+65,11,8,8);
-    ctx.textAlign='right';ctx.fillStyle='#73839b';ctx.fillText('LIVE DEPTH · 250MS CAPTURE  /  '+history.length+' SNAPSHOTS',W-right,15);
+    ctx.textAlign='right';ctx.fillStyle='#a0aec0';ctx.fillText('LIVE DEPTH · '+nfxEstLiqRange.toUpperCase()+'  /  '+history.length+' SNAPSHOTS',W-right,15);
     if(!history.length){ctx.fillStyle='#73839b';ctx.textAlign='center';ctx.font='12px system-ui,sans-serif';ctx.fillText('Collecting live order-book snapshots…',left+pw/2,top+ph/2-7);ctx.font='10px system-ui,sans-serif';ctx.fillStyle='#4e6077';ctx.fillText('Heatmap intensity builds from visible Binance Futures depth',left+pw/2,top+ph/2+13);return;}
     var mids=history.map(function(x){return x.mid;}).filter(function(x){return Number.isFinite(x)&&x>0;}),currentMid=mids[mids.length-1];
     // Fit the vertical price scale to the actual visible depth levels instead of a fixed +/-0.5% band.
@@ -4064,9 +4064,9 @@ document.addEventListener('click', function(event) {
     for(var q=0;q<=6;q++){var xx=left+pw*q/6;ctx.beginPath();ctx.moveTo(xx,top);ctx.lineTo(xx,top+ph);ctx.stroke();var t=new Date(cutoff+windowMs*q/6);ctx.fillStyle='#75849a';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,SFMono-Regular,Menlo,monospace';ctx.fillText(t.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'}),xx,H-13);}
     // Overlay verified Binance Futures OHLC candles on the same price/time scale.
     if(chartCandles.length){
-      var candleStep=pw/Math.max(1,windowMs/60000),bodyW=Math.max(2,Math.min(7,candleStep*.68));
+      var intervalMs=({'1h':60000,'2h':60000,'4h':60000,'12h':60000,'1d':60000,'2d':300000,'3d':300000,'7d':600000}[nfxEstLiqRange]||60000),candleStep=pw*intervalMs/windowMs,bodyW=Math.max(1,Math.min(7,candleStep*.68));
       chartCandles.forEach(function(c){
-        var x=left+((c.t+30000-cutoff)/windowMs)*pw;if(x<left-bodyW||x>left+pw+bodyW)return;
+        var x=left+((c.t+intervalMs/2-cutoff)/windowMs)*pw;if(x<left-bodyW||x>left+pw+bodyW)return;
         var yO=top+(hi-c.o)/(hi-lo)*ph,yC=top+(hi-c.c)/(hi-lo)*ph,yH=top+(hi-c.h)/(hi-lo)*ph,yL=top+(hi-c.l)/(hi-lo)*ph;
         var color=c.c>=c.o?'#21d6a0':'#ff5575';ctx.globalAlpha=.96;ctx.strokeStyle=color;ctx.lineWidth=1.15;ctx.beginPath();ctx.moveTo(x,yH);ctx.lineTo(x,yL);ctx.stroke();ctx.fillStyle=color;ctx.fillRect(x-bodyW/2,Math.min(yO,yC),bodyW,Math.max(1.4,Math.abs(yC-yO)));
       });ctx.globalAlpha=1;
@@ -4139,7 +4139,12 @@ var nfxEstLiqCandles=[];
     var lo=Math.min.apply(null,candles.map(function(c){return c.l;}));
     var hi=Math.max.apply(null,candles.map(function(c){return c.h;}));
     events.forEach(function(e){lo=Math.min(lo,e.p);hi=Math.max(hi,e.p);});
-    var last=candles[candles.length-1].c,pad=Math.max((hi-lo)*.12,last*.0015);
+    var last=candles[candles.length-1].c;
+    // Modelled liquidation bands are approximate leverage-distance guides around mark/last price,
+    // not real account liquidation prices or exchange-reported positions.
+    var estimatedBands=[{pct:.008,label:'125x est.',side:'both'},{pct:.01,label:'100x est.',side:'both'},{pct:.02,label:'50x est.',side:'both'},{pct:.04,label:'25x est.',side:'both'},{pct:.05,label:'20x est.',side:'both'}];
+    var minModel=last*(1-.05),maxModel=last*(1+.05);lo=Math.min(lo,minModel);hi=Math.max(hi,maxModel);
+    var pad=Math.max((hi-lo)*.045,last*.0008);
     var minP=Math.max(1e-8,lo-pad),maxP=hi+pad;if(maxP<=minP){minP=last*.99;maxP=last*1.01;}
     var rows=100,cols=Math.min(220,Math.max(80,Math.ceil(pw/4))),cellW=pw/cols,cellH=ph/rows;
     var heat=Array.from({length:rows},function(){return Array(cols).fill(0);});
@@ -4172,8 +4177,16 @@ var nfxEstLiqCandles=[];
       var dt=new Date(cutoff+span*q/6);ctx.fillStyle='#8391a5';ctx.textAlign=q===0?'left':q===6?'right':'center';ctx.font='9px ui-monospace,monospace';
       ctx.fillText(dt.toLocaleDateString([],{month:'short',day:'2-digit'})+' '+dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}),gx,H-15);
     }
-    // Overlay actual Binance Futures candles; no synthetic liquidation levels are generated.
-    // Place each candle by its actual timestamp across the entire selected window. Candle body width follows the selected candle interval so long ranges remain readable.
+    // Modelled leverage-distance bands: visible for context, clearly separated from verified force-order events.
+    estimatedBands.forEach(function(b){
+      var up=last*(1+b.pct),down=last*(1-b.pct),yu=top+(maxP-up)/(maxP-minP)*ph,yd=top+(maxP-down)/(maxP-minP)*ph;
+      [[yu,'#ff7188','SHORT LIQ ZONE · '+b.label],[yd,'#40dfbd','LONG LIQ ZONE · '+b.label]].forEach(function(z){
+        if(z[0]<top||z[0]>top+ph)return;
+        ctx.save();ctx.globalAlpha=.30;ctx.fillStyle=z[1];ctx.fillRect(left,z[0]-2,pw,4);ctx.globalAlpha=.78;ctx.strokeStyle=z[1];ctx.lineWidth=1;ctx.setLineDash([4,4]);ctx.beginPath();ctx.moveTo(left,z[0]);ctx.lineTo(left+pw,z[0]);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+      });
+    });
+    ctx.fillStyle='rgba(8,14,24,.88)';ctx.fillRect(left+6,top+6,166,18);ctx.strokeStyle='rgba(144,164,194,.35)';ctx.strokeRect(left+6,top+6,166,18);ctx.fillStyle='#c7d4e7';ctx.textAlign='left';ctx.font='700 9px system-ui,sans-serif';ctx.fillText('ESTIMATED LEVERAGE ZONES · NOT LIVE POSITIONS',left+12,top+15);
+    // Overlay actual Binance Futures candles. These candles share the same selected time range and candle interval as the liquidity heatmap.
     var intervalMs=({ '1h':60000,'2h':60000,'4h':60000,'12h':60000,'1d':60000,'2d':300000,'3d':300000,'7d':600000 })[nfxEstLiqRange]||60000;
     var step=pw*intervalMs/span,cw=Math.max(1,Math.min(9,step*.72));
     candles.forEach(function(c){
@@ -4218,8 +4231,8 @@ var nfxEstLiqCandles=[];
     var total=events.reduce(function(sum,e){return sum+e.usd;},0);
     ctx.fillStyle='#92a0b3';ctx.textAlign='left';ctx.font='8px system-ui,sans-serif';
     ctx.fillText('EXCHANGE-REPORTED FORCE ORDERS · '+events.length+' EVENTS · '+(total/1e6).toFixed(2)+'M USDT',left,H-3);
-    var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=events.length>0;
-    if(empty&&events.length===0)empty.textContent='Candles and live price are shown. No exchange-reported liquidation events have arrived for this symbol/window yet; actual liquidation bands appear when Binance publishes force-order events.';
+    var empty=$('nfxLiqLiquidationEmpty');if(empty)empty.hidden=true;
+    if(empty)empty.textContent='Estimated leverage-distance zones are shown for visual context. Actual liquidation events/levels appear separately when Binance reports force orders.';
     var status=$('nfxLiqEstStatus');if(status)status.textContent=liquidationSocket&&liquidationSocket.readyState===WebSocket.OPEN?'LIVE · BINANCE FORCE ORDERS':'WAITING FOR BINANCE FEED';
   }
 
