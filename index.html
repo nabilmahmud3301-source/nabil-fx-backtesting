@@ -4023,7 +4023,8 @@ document.addEventListener('click', function(event) {
   function nfxBookCandleConfig(seconds){
     if(seconds<=86400)return {interval:'1m',intervalMs:60000,limit:Math.min(1500,Math.max(60,Math.ceil(seconds/60)+3))};
     if(seconds<=259200)return {interval:'5m',intervalMs:300000,limit:Math.min(1500,Math.ceil(seconds/300)+3)};
-    return {interval:'10m',intervalMs:600000,limit:Math.min(1500,Math.ceil(seconds/600)+3)};
+    // Binance Futures does not support a 10m kline interval. Use its valid 15m interval for the 7D window.
+    return {interval:'15m',intervalMs:900000,limit:Math.min(1500,Math.ceil(seconds/900)+3)};
   }
   function nfxBookCandleLoad(force){
     if(activeMarket!=='crypto')return;
