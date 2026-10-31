@@ -1305,42 +1305,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
 </style>
 
 <style id="nfx-book-liq-timeframe-style">.nfx-book-liq-ranges{display:flex;align-items:center;gap:3px;flex-wrap:nowrap}.nfx-book-liq-ranges button{min-width:31px}.nfx-liq-timeline-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}@media(max-width:760px){.nfx-book-liq-ranges{gap:1px}.nfx-book-liq-ranges button{min-width:27px;padding-left:6px!important;padding-right:6px!important}}</style>
-<style id="nfx-liquidity-controls-match-liquidation">
-/* Liquidity Heatmap controls intentionally mirror Liquidation Heatmap markup and layout.
-   Only the Liquidity Heatmap is targeted; its own range/zoom/reset handlers remain intact. */
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{
-  display:flex!important;align-items:center!important;justify-content:flex-end!important;
-  gap:7px!important;flex-wrap:wrap!important;width:auto!important;min-width:0;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges{
-  display:flex!important;align-items:center!important;justify-content:flex-start!important;
-  gap:4px!important;flex-wrap:wrap!important;min-width:0;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button{
-  flex:0 0 auto!important;min-width:0!important;height:auto!important;min-height:0!important;
-  padding:6px 8px!important;border:1px solid #27344a!important;border-radius:5px!important;
-  background:#0b1220!important;color:#9eacc2!important;
-  font:700 10px system-ui!important;line-height:1.2!important;white-space:nowrap!important;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button.active,
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button:hover{
-  color:#f7d56b!important;border-color:#b99a37!important;background:#24200f!important;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn{
-  display:inline-flex!important;align-items:center!important;justify-content:center!important;
-  gap:5px!important;min-height:31px!important;height:31px!important;padding:0 9px!important;
-  border:1px solid #354354!important;border-radius:7px!important;background:#141c27!important;
-  color:#cbd5e4!important;font-size:10px!important;font-weight:800!important;white-space:nowrap!important;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn:hover{
-  border-color:#4fd8ad!important;color:#75ebc2!important;background:#13251f!important;
-}
-@media(max-width:760px){
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head{align-items:flex-start!important;flex-direction:column!important;gap:10px!important}
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{justify-content:flex-start!important;width:100%!important}
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges{gap:4px!important}
-}
-</style>
+
 </head>
 <body>
 <header class="site-header">
@@ -1492,7 +1457,7 @@ button.click-feedback:not(:disabled){animation:buttonTapFeedback .18s ease-out}
       <div hidden aria-hidden="true"><span id="nfxLiqBidVelocitySub"></span><span id="nfxLiqAskVelocitySub"></span></div>
     </section>
     <section class="nfx-liq-timeline-panel nfx-liq-workspace-card" id="nfxLiqBookHeatmap" aria-label="Liquidity timeline heatmap">
-      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-est-liq-ranges" role="group" aria-label="Liquidity heatmap time range"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button type="button" data-book-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-book-liq-zoom="in" aria-label="Zoom in">+</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
+      <div class="nfx-liq-timeline-head"><div><div class="nfx-liq-kicker">LIVE CAPTURE</div><h3>Liquidity Heatmap</h3><p>Live resting orders by price and time · Binance Futures 100ms depth · <strong id="nfxLiqTimelineSymbol">BTC/USDT</strong></p></div><div class="nfx-liq-card-actions"><div class="nfx-est-liq-ranges" role="group" aria-label="Heatmap time range"><button type="button" data-book-liq-range="3600" class="active" aria-pressed="true">1H</button><button type="button" data-book-liq-range="7200" aria-pressed="false">2H</button><button type="button" data-book-liq-range="14400" aria-pressed="false">4H</button><button type="button" data-book-liq-range="43200" aria-pressed="false">12H</button><button type="button" data-book-liq-range="86400" aria-pressed="false">1D</button><button type="button" data-book-liq-range="172800" aria-pressed="false">2D</button><button type="button" data-book-liq-range="259200" aria-pressed="false">3D</button><button type="button" data-book-liq-range="604800" aria-pressed="false">7D</button><button type="button" data-book-liq-zoom="out" aria-label="Zoom out">−</button><button type="button" data-book-liq-zoom="in" aria-label="Zoom in">+</button><button id="nfxLiqResetHistory" type="button">Reset</button></div><select id="nfxLiqWindow" aria-label="Liquidity heatmap timeframe" hidden><option value="3600" selected>1 HOUR</option><option value="7200">2 HOURS</option><option value="14400">4 HOURS</option><option value="43200">12 HOURS</option><option value="86400">1 DAY</option><option value="172800">2 DAYS</option><option value="259200">3 DAYS</option><option value="604800">7 DAYS</option></select><button class="nfx-liq-fullscreen-btn" type="button" data-liq-fullscreen="nfxLiqBookHeatmap" aria-label="Expand liquidity heatmap">⛶ <span>Expand</span></button></div></div>
       <div class="nfx-liq-timeline-wrap"><canvas id="nfxLiqTimelineCanvas" aria-label="Live order book liquidity by price and time"></canvas><div id="nfxLiqTimelineEmpty" class="nfx-liq-timeline-empty">Building live heatmap… historical columns appear as live snapshots arrive.</div></div>
       <div class="nfx-liq-timeline-axis"><span>OLDER</span><span>PRICE · TIME</span><span>NOW →</span></div>
       <div class="nfx-liq-timeline-note">Binance USDⓈ-M Futures top-20 visible levels. Not a prediction of future liquidation levels.</div>
@@ -4564,70 +4529,7 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 #nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback{position:fixed!important;z-index:999999!important;inset:12px!important;width:auto!important;height:auto!important;max-height:none!important;min-height:0!important;overflow:auto!important;background:#080b11!important;box-shadow:0 0 0 9999px rgba(0,0,0,.82)!important}
 #nfxLiqDashboard .nfx-liq-workspace-card.nfx-liq-expanded-fallback .nfx-liq-timeline-wrap{height:calc(100vh - 250px);min-height:300px}
 
-/* Keep Liquidity Heatmap controls perfectly aligned in one row */
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{align-items:center;align-self:flex-start}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions{display:flex;flex-direction:row;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:nowrap}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions label{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions select,
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions button,
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn{height:31px;min-height:31px;box-sizing:border-box;align-self:center}
-@media(max-width:1050px){
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{width:100%;justify-content:flex-start}
- #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions{justify-content:flex-start}
-}
-/* Refined Liquidity Heatmap header controls: timeframe on its own row, actions aligned below. */
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr) auto;
-  grid-template-rows:auto auto;
-  align-items:center!important;
-  justify-content:stretch!important;
-  justify-items:stretch;
-  gap:8px 10px!important;
-  width:100%;
-  min-width:0;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-actions{display:contents!important}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges{
-  grid-column:1/-1;
-  grid-row:1;
-  display:flex!important;
-  justify-content:flex-start!important;
-  align-items:center!important;
-  flex-wrap:nowrap!important;
-  gap:4px!important;
-  min-width:0;
-  width:100%;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges button{
-  flex:0 1 34px;
-  min-width:0!important;
-  height:30px!important;
-  min-height:30px!important;
-  padding:0 6px!important;
-  white-space:nowrap;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap #nfxLiqResetHistory{
-  grid-column:1;
-  grid-row:2;
-  justify-self:start;
-  height:30px!important;
-  min-height:30px!important;
-}
-#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn{
-  grid-column:2;
-  grid-row:2;
-  justify-self:end;
-  height:30px!important;
-  min-height:30px!important;
-}
-@media(max-width:1050px){
-  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{width:100%!important}
-}
-@media(max-width:760px){
-  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges{gap:3px!important}
-  #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-book-liq-ranges button{flex:1 1 0;min-width:0!important;padding:0 4px!important;font-size:9px!important}
-}
+/* Legacy Liquidity Heatmap control layout overrides removed: controls now use the same flex layout as Liquidation Heatmap. */
 </style>
 
 <script id="nfx-three-pro-charts">
@@ -4780,6 +4682,35 @@ setInterval(function(){nfxEstLiqLoad(false);},30000);
 })();
 </script>
 <script>(function(){var $=function(id){return document.getElementById(id)};var items=[],known={},loading=false,first=true;var sources=[{name:"Google News · Forex",cat:"forex",url:"https://news.google.com/rss/search?q=forex+market+when:7d&hl=en-US&gl=US&ceid=US:en"},{name:"Google News · Trading",cat:"forex",url:"https://news.google.com/rss/search?q=currency+trading+central+bank+when:7d&hl=en-US&gl=US&ceid=US:en"},{name:"Google News · Markets",cat:"markets",url:"https://news.google.com/rss/search?q=global+financial+markets+when:7d&hl=en-US&gl=US&ceid=US:en"},{name:"Investing.com",cat:"forex",url:"https://www.investing.com/rss/news_25.rss"},{name:"Myfxbook",cat:"forex",url:"https://www.myfxbook.com/rss/latest-forex-news"},{name:"Bloomberg Markets",cat:"markets",url:"https://feeds.bloomberg.com/markets/news.rss"}];function esc(v){return String(v||"").replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;", "\"":"&quot;"}[c]})}function txt(v){var d=document.createElement("div");d.innerHTML=String(v||"");return(d.textContent||"").replace(/\s+/g," ").trim()}function date(v){var d=new Date(v||0);return isNaN(d.getTime())?null:d}function ago(d){if(!d)return"Time unavailable";var n=Date.now()-d.getTime();return n<60000?"Just now":n<3600000?Math.floor(n/60000)+"m ago":n<86400000?Math.floor(n/3600000)+"h ago":d.toLocaleDateString()}function status(t){if($("nfxNewsStatus"))$("nfxNewsStatus").textContent=t}function render(){var q=($("nfxNewsSearch").value||"").toLowerCase(),cat=$("nfxNewsCategory").value,arr=items.filter(function(x){return(cat==="all"||x.cat===cat)&&(!q||(x.title+" "+x.summary+" "+x.source).toLowerCase().indexOf(q)>=0)});$("nfxNewsCount").textContent=items.length;$("nfxNewsResultCount").textContent=arr.length+" articles";if(!arr.length){$("nfxNewsList").innerHTML="<div class=\"nfx-news-empty\">No matching headlines available. Try refreshing the public feeds.</div>";return}$("nfxNewsList").innerHTML=arr.slice(0,100).map(function(x){var link=/^https?:/i.test(x.link)?x.link:"";return"<article class=\"nfx-news-card\"><header><span>"+esc(x.source)+" · "+esc(x.cat)+"</span><time>"+esc(ago(x.date))+"</time></header><h3>"+(link?"<a href=\""+esc(link)+"\" target=\"_blank\" rel=\"noopener noreferrer\">"+esc(x.title)+"</a>":esc(x.title))+"</h3>"+(x.summary?"<p>"+esc(x.summary)+"</p>":"")+"<footer><span>"+esc(x.date?x.date.toLocaleString():"Publication time unavailable")+"</span>"+(link?"<a href=\""+esc(link)+"\" target=\"_blank\" rel=\"noopener noreferrer\">READ SOURCE ↗</a>":"")+"</footer></article>"}).join("")}function notify(x){if("Notification"in window&&Notification.permission==="granted"&&!first){try{new Notification("Nabil FX · "+x.source,{body:x.title,icon:"./nabil-fx-logo.svg"})}catch(e){}}}async function load(){if(loading)return;loading=true;var good=0;status("Connecting to multiple public market-news sources…");await Promise.all(sources.map(async function(src){var received=[];try{var r=await fetch("https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(src.url),{cache:"no-store"});if(!r.ok)throw Error("RSS gateway HTTP "+r.status);var data=await r.json();if(data.status!=="ok"||!Array.isArray(data.items))throw Error("RSS gateway returned no items");received=data.items.map(function(x){return{title:x.title,description:x.description||x.content,link:x.link,guid:x.guid,pubDate:x.pubDate}})}catch(proxyErr){try{var raw=await fetch("https://api.allorigins.win/raw?url="+encodeURIComponent(src.url),{cache:"no-store"});if(!raw.ok)throw Error("RSS fallback HTTP "+raw.status);var xmlText=await raw.text(),doc=new DOMParser().parseFromString(xmlText,"text/xml");if(doc.querySelector("parsererror"))throw Error("Invalid RSS XML");received=Array.from(doc.querySelectorAll("item")).map(function(node){return{title:node.querySelector("title")?.textContent,description:node.querySelector("description")?.textContent,link:node.querySelector("link")?.textContent,guid:node.querySelector("guid")?.textContent,pubDate:node.querySelector("pubDate")?.textContent}});if(!received.length)received=Array.from(doc.querySelectorAll("entry")).map(function(node){return{title:node.querySelector("title")?.textContent,description:node.querySelector("summary")?.textContent,link:node.querySelector("link")?.getAttribute("href")||node.querySelector("link")?.textContent,guid:node.querySelector("id")?.textContent,pubDate:node.querySelector("published")?.textContent||node.querySelector("updated")?.textContent}});if(!received.length)throw Error("RSS contained no articles")}catch(fallbackErr){return}}if(received.length)good++;received.forEach(function(x){var title=txt(x.title);if(!title)return;var id=String(x.guid||x.link||title);if(!id)return;var it={id:id,title:title,summary:txt(x.description).slice(0,300),link:x.link||"",source:src.name,cat:src.cat,date:date(x.pubDate)};if(!known[id]){known[id]=1;notify(it);items.push(it)}})}));items.sort(function(a,b){return(b.date?b.date.getTime():0)-(a.date?a.date.getTime():0)});try{localStorage.setItem("nfxNewsArchive",JSON.stringify(items.slice(0,300)))}catch(e){}render();$("nfxNewsConnection").textContent=good?("LIVE FEEDS · "+good+" SOURCES"):"FEED CONNECTION LIMITED";$("nfxNewsUpdated").textContent=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});status(good?"Updated from "+good+" public feed(s). Publisher and feed-gateway delays may apply.":"Public feeds are unavailable right now. Try again or open a publisher below.");try{var r=await fetch("https://nfs.faireconomy.media/ff_calendar_thisweek.json",{cache:"no-store"});if(!r.ok)throw Error();var rows=await r.json();var now=Date.now();rows=rows.map(function(x){return{title:txt(x.title||x.event||x.name),country:txt(x.country||x.currency),impact:txt(x.impact),date:date(x.date||x.datetime||x.time),forecast:txt(x.forecast),actual:txt(x.actual)}}).filter(function(x){return x.title}).sort(function(a,b){return(a.date?a.date.getTime():0)-(b.date?b.date.getTime():0)});var fut=rows.filter(function(x){return x.date&&x.date.getTime()>=now}).slice(0,8),past=rows.filter(function(x){return x.date&&x.date.getTime()<now}).reverse().slice(0,4),show=fut.concat(past);$("nfxNewsCalendar").innerHTML=show.length?show.map(function(x){return"<article class=\"nfx-news-event\"><small>"+esc(x.date?x.date.toLocaleString():"Time pending")+" · "+esc(x.country||"GLOBAL")+"</small><strong>"+esc(x.title)+"</strong><span>"+esc(x.impact||"Impact not supplied")+(x.forecast?" · Forecast "+esc(x.forecast):"")+(x.actual?" · Actual "+esc(x.actual):"")+"</span></article>"}).join(""):"<div class=\"nfx-news-empty\">No calendar events returned.</div>"}catch(e){$("nfxNewsCalendar").innerHTML="<div class=\"nfx-news-empty\">Calendar feed unavailable. Use the official Forex Factory calendar link.</div>"}first=false;loading=false}function enable(){if(!("Notification"in window)){status("This browser does not support web notifications.");return}Notification.requestPermission().then(function(p){if(p==="granted"){$("nfxNewsAlertState").textContent="ON";$("nfxNewsNotify").textContent="✓ Notifications enabled";status("Browser alerts enabled for new headlines while this page is open. Background push when closed needs a push server.");}else status("Notification permission was not granted. Change this site permission in browser settings.")})}document.addEventListener("DOMContentLoaded",function(){if(!$("page-news"))return;try{items=JSON.parse(localStorage.getItem("nfxNewsArchive")||"[]").map(function(x){x.date=date(x.date);return x});items.forEach(function(x){known[x.id]=1});render()}catch(e){}$("nfxNewsRefresh").onclick=load;$("nfxNewsCalendarRefresh").onclick=load;$("nfxNewsNotify").onclick=enable;$("nfxNewsSearch").oninput=render;$("nfxNewsCategory").onchange=render;document.querySelectorAll("[data-page=\"news\"]").forEach(function(b){b.addEventListener("click",function(){setTimeout(function(){if($("page-news").classList.contains("active")&&!items.length)load()},100)})});load();setInterval(function(){if(!document.hidden)load()},180000)});document.addEventListener("visibilitychange",function(){if(!document.hidden&&$("page-news")&&$("page-news").classList.contains("active"))load()})})();</script>
+<style id="nfx-liquidity-controls-final">
+/* Exact control layout and button styling shared with Liquidation Heatmap. */
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{
+ display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges{
+ display:flex;gap:4px;align-items:center;flex-wrap:wrap;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button{
+ border:1px solid #27344a;background:#0b1220;color:#9eacc2;border-radius:5px;
+ padding:6px 8px;font:700 10px system-ui;cursor:pointer;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button.active,
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-est-liq-ranges button:hover{
+ color:#f7d56b;border-color:#b99a37;background:#24200f;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn{
+ display:inline-flex;align-items:center;justify-content:center;gap:5px;
+ min-height:31px;padding:0 9px;border:1px solid #354354;border-radius:7px;
+ background:#141c27;color:#cbd5e4;font-size:10px;font-weight:800;white-space:nowrap;cursor:pointer;
+}
+#nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-fullscreen-btn:hover{
+ border-color:#4fd8ad;color:#75ebc2;background:#13251f;
+}
+@media(max-width:760px){
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-timeline-head{align-items:flex-start;flex-direction:column;gap:10px}
+ #nfxLiqDashboard #nfxLiqBookHeatmap .nfx-liq-card-actions{justify-content:flex-start}
+}
+</style>
 </body>
 </html>
 <style>
